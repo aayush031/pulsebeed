@@ -177,15 +177,4 @@ vercel --prod
 npx prisma migrate deploy
 ```
 
-## Assessment Checklist Mapping
 
-- T3-style stack: implemented
-- Infinite feed + mixed media: implemented
-- Optimistic like/bookmark: implemented
-- Continue watching/reading persistence: implemented
-- Zod on API input: implemented
-- Idempotency + atomic operations: implemented
-- Cursor pagination: implemented
-- Search indexing migration (GIN/Trigram): implemented
-- Admin CRUD and slug handling: implemented
-- Seed script for scale testing: implemented
