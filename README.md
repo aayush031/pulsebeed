@@ -82,14 +82,7 @@ NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="replace-with-a-long-random-secret"
 ADMIN_EMAIL="admin@pulsebeed.dev"
 
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
 
-EMAIL_SERVER_HOST=""
-EMAIL_SERVER_PORT="587"
-EMAIL_SERVER_USER=""
-EMAIL_SERVER_PASSWORD=""
-EMAIL_FROM="Pulsebeed <no-reply@pulsebeed.dev>"
 ```
 
 ## Installation and Run
