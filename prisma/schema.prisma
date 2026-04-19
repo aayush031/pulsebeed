@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ContentType {
+  VIDEO
+  ARTICLE
+}
+
+enum EngagementType {
+  LIKE
+  BOOKMARK
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String       @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role         @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  engagements   Engagement[]
+  progresses    Progress[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Content {
+  id          String       @id @default(cuid())
+  title       String
+  slug        String       @unique
+  description String?
+  type        ContentType
+  videoUrl    String?
+  thumbnail   String?
+  body        String?
+  readTime    Int          @default(1)
+  likesCount  Int          @default(0)
+  bookmarksCount Int       @default(0)
+  viewCount   Int          @default(0)
+  engagements Engagement[]
+  progresses  Progress[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([type, createdAt])
+}
+
+model Engagement {
+  id        String         @id @default(cuid())
+  userId    String
+  contentId String
+  type      EngagementType
+  createdAt DateTime       @default(now())
+
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   Content        @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId, type])
+  @@index([contentId, type])
+}
+
+model Progress {
+  id           String   @id @default(cuid())
+  userId       String
+  contentId    String
+  lastPosition Int      @default(0)
+  isCompleted  Boolean  @default(false)
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content      Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+  @@index([userId, updatedAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

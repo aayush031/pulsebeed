@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020617;
+  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -12,15 +12,55 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html.light {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+html.dark {
+  --background: #020617;
+  --foreground: #e2e8f0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+a[href],
+button,
+summary,
+input[type="checkbox"],
+input[type="radio"],
+select {
+  cursor: pointer;
+}
+
+@keyframes float-up {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-float-up {
+  animation: float-up 6s ease-in-out infinite;
+}
+
+.animate-shine {
+  background-size: 200% 100%;
+  animation: shine 3s linear infinite;
 }
